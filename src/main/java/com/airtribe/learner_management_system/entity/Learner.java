@@ -34,8 +34,7 @@ public class Learner {
     //This is a many-to-many relationship, so we do not need to create a separate join table
 
 
-    public Learner(long learnerId, String name, String email, String phoneNumber) {
-        this.learnerId = learnerId;
+    public Learner(String name, String email, String phoneNumber, String ff) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;

@@ -3,8 +3,10 @@ package com.airtribe.learner_management_system.service;
 
 
 import com.airtribe.learner_management_system.entity.Cohort;
+import com.airtribe.learner_management_system.entity.Course;
 import com.airtribe.learner_management_system.entity.Learner;
 import com.airtribe.learner_management_system.repository.CohortRepository;
+import com.airtribe.learner_management_system.repository.CourseRepository;
 import com.airtribe.learner_management_system.repository.LearnerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class LearnerService {
     @Autowired
     private CohortRepository cohortRepository;
 
+    @Autowired
+    CourseRepository courseRepository;
     public Learner createLearner(Learner learner) {
         // Here you would typically save the learner to a database
         // For this example, we will just return a success message
@@ -85,6 +89,34 @@ public class LearnerService {
         } else {
             // Handle the case where the cohort or learner is not found
             System.out.println("Cohort or Learner not found.");
+            return null; // or throw an exception
+        }
+    }
+
+    public Iterable<Cohort> getAllCohorts() {
+        // This method would retrieve all cohorts from the database
+        // For this example, we will just print a message
+        System.out.println("Retrieving all cohorts...");
+        return cohortRepository.findAll();
+    }
+
+    public Course createCourse(Course course) {
+        return courseRepository.save(course);
+    }
+
+    public Cohort addLearnerToCohort(List<Learner> learners, Long cohortId) {
+        Optional<Cohort> optionalCohort = cohortRepository.findById(cohortId);
+        if (optionalCohort.isPresent()) {
+            Cohort cohort = optionalCohort.get();
+            // Add the learners to the cohort's list of learners
+            cohort.getLearners().addAll(learners);
+            // Save the updated cohort
+            //Rather saving learner we can use cascade type to save learners
+//            learnerRepository.saveAll(learners); // Save learners if they are new
+            return cohortRepository.save(cohort);
+        } else {
+            // Handle the case where the cohort is not found
+            System.out.println("Cohort with ID " + cohortId + " not found.");
             return null; // or throw an exception
         }
     }
