@@ -23,6 +23,12 @@ public class Learner {
     @JsonIgnore
     private List<Cohort> cohorts;
 
+    public Learner(String johnDoe, String test, String test1) {
+        this.name = johnDoe;
+        this.email = test;
+        this.phoneNumber = test1;
+    }
+
     public List<Cohort> getCohorts() {
         return cohorts;
     }
